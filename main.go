@@ -1,10 +1,14 @@
 package main
 
 import (
+	
 	"database/sql"
 	"fmt"
-	_ "github.com/go-sql-driver/mysql"
 	"log"
+	"math"
+	"math/rand"
+
+	_ "github.com/go-sql-driver/mysql"
 	// "WebApp/toto"
 )
 
@@ -24,7 +28,36 @@ import (
 // 				db.Exec(sql) => INSERT || DELETE => renvoit *Row, err
 // prepared statement : db.Exec("...?", varOf?)
 
+type Cercle struct{
+	radius float64
+}
+
+type Carre struct{
+	cote int32
+}
+
+//on definiiune interface
+type ShapeInterface interface{
+	Shape() float64
+}
+
+func (c Cercle) Shape() float64{
+	i := rand.Intn(100)
+	fmt.Println(i)
+	return math.Pi * c.radius * c.radius
+}
+ 
+
+func getArea( s ShapeInterface){
+	fmt.Println(s.Shape())
+}
+
+
 func main() {
+
+	c := Cercle{radius: 5.2}
+	 
+	getArea(c)
 
 	db, err := sql.Open("mysql", "root:cerise@tcp(localhost:3306)/toto")
 	defer db.Close()
