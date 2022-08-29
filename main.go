@@ -58,18 +58,21 @@ type User struct{
 
 
 func main() {
-	var bo bool
-	compteur := 0
-	fmt.Printf("BOOOl %v\n",bo)
-	for bo == false{
-		fmt.Print("GGG compteur: ")
-		fmt.Println( compteur)
-		compteur +=1
-		if compteur > 10{
-			bo = true
-		}
-	}
-  	fmt.Printf("BOOOlBOOOlBOOOlBOOOl%v\n",bo)
+	// var bo bool
+	// compteur := 0
+	// fmt.Printf("BOOOl %v\n",bo)
+	// for bo == false{
+	// 	fmt.Print("GGG compteur: ")
+	// 	fmt.Println( compteur)
+	// 	compteur +=1
+	// 	if compteur > 10{
+	// 		bo = true
+	// 	}
+	// }
+  	// fmt.Printf("BOOOlBOOOlBOOOlBOOOl%v\n",bo)
+
+
+
 	c := Cercle{radius: 5.2}
 
 	getArea(c)
@@ -96,6 +99,8 @@ func main() {
 
 
 	// SELECT ___________--------------______________
+
+
 	sliceOfUsers := make([]User,0)
 
 	sql := "select * from user"
