@@ -1,13 +1,11 @@
 package main
 
 import (
-	
 	"database/sql"
 	"fmt"
 	"log"
 	"math"
 	"math/rand"
-
 	_ "github.com/go-sql-driver/mysql"
 	// "WebApp/toto"
 )
@@ -28,35 +26,41 @@ import (
 // 				db.Exec(sql) => INSERT || DELETE => renvoit *Row, err
 // prepared statement : db.Exec("...?", varOf?)
 
-type Cercle struct{
+type Cercle struct {
 	radius float64
 }
 
-type Carre struct{
+type Carre struct {
 	cote int32
 }
 
-//on definiiune interface
-type ShapeInterface interface{
+// on definiiune interface
+type ShapeInterface interface {
 	Shape() float64
 }
 
-func (c Cercle) Shape() float64{
+func (c Cercle) Shape() float64 {
 	i := rand.Intn(100)
 	fmt.Println(i)
 	return math.Pi * c.radius * c.radius
 }
- 
 
-func getArea( s ShapeInterface){
+func getArea(s ShapeInterface) {
 	fmt.Println(s.Shape())
+}
+
+type User struct{
+	id int
+	nom string
+	prenom string
+	age int
 }
 
 
 func main() {
-
+ 
 	c := Cercle{radius: 5.2}
-	 
+
 	getArea(c)
 
 	db, err := sql.Open("mysql", "root:cerise@tcp(localhost:3306)/toto")
@@ -65,16 +69,47 @@ func main() {
 		log.Fatal((err))
 	}
 
-	sql := "insert into user(nom,prenom,age) values(?,?,?)"
-	res, err2 := db.Exec(sql, "MARTIN", "PAULéàî", 44)
+	// INSERTION _________________--------------------___________
+	// sql := "insert into user(nom,prenom,age) values(?,?,?)"
+	// res, err2 := db.Exec(sql, "MARTIN", "PAULéàî", 44)
 
-	if err2 != nil {
-		log.Fatal(err2)
-	}
-	LastId, err3 := res.LastInsertId()
+	// if err2 != nil {
+	// 	log.Fatal(err2)
+	// }
+	// LastId, err3 := res.LastInsertId()
 
-	if err3 != nil {
-		log.Fatal((err3.Error()))
+	// if err3 != nil {
+	// 	log.Fatal((err3.Error()))
+	// }
+	// fmt.Println("Les tid inseert: ", LastId)
+
+
+	// SELECT ___________--------------______________
+	sliceOfUsers := make([]User,0)
+
+	sql := "select * from user"
+
+	res, err2 := db.Query(sql)
+	
+	defer res.Close()
+
+	if err2 != nil{
+		log.Fatal(err2.Error())
 	}
-	fmt.Println("Les tid inseert: ", LastId)
+
+	for res.Next(){
+		var u User
+		err := res.Scan( &u.id, &u.age, &u.nom, &u.prenom)
+		if err != nil{
+			log.Fatal(err)
+		}
+		 
+		sliceOfUsers = append(sliceOfUsers, u) 
+	}
+	cpt := 0
+	for _,user := range sliceOfUsers{
+		cpt += 1
+		fmt.Printf("each user: %v nbr d'utilisateurs: %d\n",user,cpt)
+	}
+	 
 }
