@@ -16,7 +16,15 @@ import (
 // pour le build => go build .  => pour l'os ou on build
 // pour le build => GOOS=windows GOARCH=386 go build .  => pour Windows
 
-//  site pour mysql documentation
+//  site pour mysql documentation => https://zetcode.com/golang/mysql/
+
+// les commandes: 
+//				db.QueryRow().Scan() => query une seule ligne => renvoit *Row
+//				db.Query => query sur toutes les lignes => renvoit *Row, err
+// 				db.Exec(sql) => INSERT || DELETE => renvoit *Row, err
+// prepared statement : db.Exec("...?", varOf?)
+
+
 
 func main(){
  
@@ -25,17 +33,19 @@ func main(){
 	if err != nil{
 		log.Fatal((err))
 	}
-	var version string
 
-	err2 := db.QueryRow("SELECT VERSION()").Scan((&version))
-
-	if err2 != nil{
-		log.Fatal(err2)
-	}
-
-	fmt.Println(version)
-
+	sql :="insert into user(nom,prenom,age) values(?,?,?)"
 	 
+res, err2 :=db.Exec(sql,"MARTIN","PAUL",44)
+if err2 != nil{
+	log.Fatal(err2)
+}
+ LastId, err3 := res.LastInsertId()
+
+if err3 != nil{
+	log.Fatal((err3.Error()))
+}
+ fmt.Println("Les tid inseert: ",LastId)
 }
 
  
