@@ -66,7 +66,7 @@ func main() {
 	}
 
 	sql := "insert into user(nom,prenom,age) values(?,?,?)"
-	res, err2 := db.Exec(sql, "MARTIN", "PAUL", 44)
+	res, err2 := db.Exec(sql, "MARTIN", "PAULéàî", 44)
 
 	if err2 != nil {
 		log.Fatal(err2)
