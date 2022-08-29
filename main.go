@@ -16,6 +16,8 @@ import (
 // pour le build => go build .  => pour l'os ou on build
 // pour le build => GOOS=windows GOARCH=386 go build .  => pour Windows
 
+//  site pour mysql documentation
+
 func main(){
  
 	db, err := sql.Open("mysql","root:cerise@tcp(localhost:3306)/toto")
